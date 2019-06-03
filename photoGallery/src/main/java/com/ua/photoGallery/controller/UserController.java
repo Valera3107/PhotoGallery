@@ -125,7 +125,7 @@ public class UserController {
 		Image fileMultipart = imageService.getFile(id);
 		User user = getUser.get();
 		user.getImages().removeIf(p -> p.equals(fileMultipart));
-		userService.update(user);
+		userRepository.save(user);
 		return "redirect:/favorite";
 	}
 

@@ -55,7 +55,7 @@
 					</security:authorize>
 
 					<security:authorize access="hasRole('ROLE_USER')">
-						<li><a href="${contextPath}/favorite">Favorite</a></li>
+						<li class="active"><a href="${contextPath}/favorite">Favorite</a></li>
 					</security:authorize>
 					<li><c:if
 							test="${pageContext.request.userPrincipal.name != null}">
