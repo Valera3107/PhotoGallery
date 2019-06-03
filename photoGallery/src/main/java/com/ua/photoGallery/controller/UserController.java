@@ -2,6 +2,7 @@ package com.ua.photoGallery.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -44,6 +45,12 @@ public class UserController {
 
 	@Autowired
 	private ImageRepository imageRepository;
+	
+	private Supplier<User> getUser = () -> {
+		String emailUser = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByEmail(emailUser).get();
+		return user;
+	};
 
 	@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
 	public String login(Model model, String error, String logout) {
@@ -96,13 +103,11 @@ public class UserController {
 
 	@RequestMapping(value = "/addToFavorite", method = RequestMethod.GET)
 	public ModelAndView addToFavorite(@RequestParam String id) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String emailUser = auth.getName();
-		User user = userRepository.findByEmail(emailUser).get();
+		User user = getUser.get();
 		Image fileMultipart = imageService.getFile(id);
 		if (!user.getImages().contains(fileMultipart)) {
 			user.getImages().add(fileMultipart);
-			userService.update(user);
+			userRepository.save(user);
 		}
 		return openFavorite();
 	}
@@ -118,9 +123,7 @@ public class UserController {
 	@GetMapping(value = "/deleteFavorite")
 	public String deleteFavorite(@RequestParam String id) {
 		Image fileMultipart = imageService.getFile(id);
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String emailUser = auth.getName();
-		User user = userRepository.findByEmail(emailUser).get();
+		User user = getUser.get();
 		user.getImages().removeIf(p -> p.equals(fileMultipart));
 		userService.update(user);
 		return "redirect:/favorite";
@@ -128,9 +131,7 @@ public class UserController {
 
 	@GetMapping(value = "/favorite")
 	public ModelAndView openFavorite() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String emailUser = auth.getName();
-		User user = userRepository.findByEmail(emailUser).get();
+		User user = getUser.get();
 		ModelAndView mav = new ModelAndView("favorite");
 		mav.addObject("favorites", user.getImages());
 		return mav;

@@ -80,7 +80,7 @@
 				</a> <img src="main/img/menu-icon.png" alt="" class="menu-icon">
 				<ul class="main-menu">
 					<li><a href="${contextPath}/home">Gallery</a></li>
-						<security:authorize access="hasRole('ROLE_ADMIN')">
+					<security:authorize access="hasRole('ROLE_ADMIN')">
 						<li><a href="${contextPath}/uploadImage">Upload image</a></li>
 					</security:authorize>
 
@@ -130,9 +130,15 @@
 					</div>
 
 					<span class="txt1 p-b-11"> Marker </span>
-					<div class="wrap-input100 validate-input m-b-12">
-						<input class="input100" type="text" name="marker" placeholder="love/amimals/photo/nature/city"> <span
-							class="focus-input100"></span>
+					<div class="wrap-input100 validate-input m-b-12" style="border: 0;">
+						<select class="form-control input100" name="marker"
+							id="exampleFormControlSelect1">
+							<option>animals</option>
+							<option>love</option>
+							<option>photo</option>
+							<option>nature</option>
+							<option>city</option>
+						</select> <span class="focus-input100"></span>
 					</div>
 
 					<span class="txt1 p-b-11"> Author </span>
@@ -143,8 +149,8 @@
 
 					<span class="txt1 p-b-11"> Image </span>
 					<div class="wrap-input100 validate-input m-b-12">
-						<input class="input100" type="file" name="image"> <span
-							class="focus-input100"></span>
+						<input class="input100" type="file" name="image"
+							style="line-height: 49px;"> <span class="focus-input100"></span>
 					</div>
 
 					<div class="container-login100-form-btn">
