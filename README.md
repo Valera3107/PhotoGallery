@@ -1,1 +1,1 @@
-# PhotoGallery
+This project(PhotoGallery) created for download, upload and add to favorite images.The PhotoGallery have made via Spring Framework which consists of FileMultipart, Security, Data JPA and Frontend part: JSP, HTML, CSS, JS. 
