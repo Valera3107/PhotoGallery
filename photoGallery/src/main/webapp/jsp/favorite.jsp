@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -48,15 +48,17 @@
 				<a href="" class="site-logo"> <img src="main/img/logo.png"
 					alt="">
 				</a> <img src="main/img/menu-icon.png" alt="" class="menu-icon">
+				
 				<ul class="main-menu">
-					<li><a href="${contextPath}/home">Gallery</a></li>
+					<li><a href="${contextPath}/home"><spring:message code="home.gallery" /></a></li>
 					<security:authorize access="hasRole('ROLE_ADMIN')">
-						<li><a href="${contextPath}/uploadImage">Upload image</a></li>
+						<li><a href="${contextPath}/uploadImage"><spring:message code="home.uploadimage" /></a></li>
 					</security:authorize>
 
 					<security:authorize access="hasRole('ROLE_USER')">
-						<li class="active"><a href="${contextPath}/favorite">Favorite</a></li>
+						<li class="active"><a href="${contextPath}/favorite"><spring:message code="home.favorite" /></a></li>
 					</security:authorize>
+
 					<li><c:if
 							test="${pageContext.request.userPrincipal.name != null}">
 							<form id="logoutForm" method="POST"
@@ -66,10 +68,24 @@
 							</form>
 
 							<button class="logout">
-								<a onclick="document.forms['logoutForm'].submit()">Logout</a>
+								<a onclick="document.forms['logoutForm'].submit()"><spring:message code="home.logout" /></a>
 							</button>
 
 						</c:if></li>
+
+					<li>
+						<fieldset style="border: 0; padding: 10px 11px;">
+							<label style="position: inherit;"><spring:message
+									code="login.choose_language" /></label> <select id="locales"
+								style="border: 1px solid black; border-radius: 4px; padding: 2px 42px;">
+								<option value="en"><spring:message code='login.english' /></option>
+								<option value="ua"><spring:message
+										code='login.ukrainian' /></option>
+
+							</select>
+						</fieldset>
+
+					</li>
 				</ul>
 				<div class="social-links-warp">
 					<div class="social-links">
@@ -89,12 +105,12 @@
 		<!-- Page section -->
 		<div class="page-section gallery-page">
 			<ul class="portfolio-filter">
-				<li class="filter all active" data-filter="*">All</li>
-				<li class="filter" data-filter=".photo">Photography</li>
-				<li class="filter" data-filter=".nature">Nature</li>
-				<li class="filter" data-filter=".love">Love</li>
-				<li class="filter" data-filter=".animals">Animals</li>
-				<li class="filter" data-filter=".city">City</li>
+				<li class="filter all active" data-filter="*"><spring:message code="home.all" /></li>
+				<li class="filter" data-filter=".photo"><spring:message code="home.photo" /></li>
+				<li class="filter" data-filter=".nature"><spring:message code="home.nature" /></li>
+				<li class="filter" data-filter=".love"><spring:message code="home.love" /></li>
+				<li class="filter" data-filter=".animals"><spring:message code="home.animals" /></li>
+				<li class="filter" data-filter=".city"><spring:message code="home.city" /></li>
 			</ul>
 
 
@@ -104,7 +120,7 @@
 						<div class="gallery-item ${photo.marker}">
 							<img src="data:image/jpg;base64, ${photo.image}" alt="image">
 							<div class="hover-links">
-								<a href="photo?id=${photo.id}" class="site-btn sb-light">Download</a>
+								<a href="photo?id=${photo.id}" class="site-btn sb-light"><spring:message code="home.download" /></a>
 								<a href="deleteFavorite?id=${photo.id}"
 									class="btn btn-brand btn-tumblr""><i class="material-icons"
 									style="color: white; padding: 8px; font-size: 60px; margin-left: -17px;">cancel</i></a>
@@ -118,16 +134,22 @@
 		</div>
 		<!-- Page section end-->
 	</div>
-	<!-- Search model -->
-	<div class="search-model">
-		<div class="h-100 d-flex align-items-center justify-content-center">
-			<div class="search-close-switch">x</div>
-			<form class="search-moderl-form">
-				<input type="text" id="search-input" placeholder="Search here.....">
-			</form>
-		</div>
-	</div>
 
+	<script
+		src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var selItem = localStorage.getItem("locales");
+			$('#locales').val(selItem ? selItem : 'en');
+			$("#locales").change(function() {
+				var selectedOption = $('#locales').val();
+				if (selectedOption) {
+					window.location.replace('?lang=' + selectedOption);
+					localStorage.setItem("locales", selectedOption);
+				}
+			});
+		});
+	</script>
 	<!--====== Javascripts & Jquery ======-->
 	<script src="main/js/jquery-3.2.1.min.js"></script>
 	<script src="main/js/bootstrap.min.js"></script>
