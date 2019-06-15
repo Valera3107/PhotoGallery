@@ -71,8 +71,8 @@
 							</button>
 
 						</c:if></li>
-
 					<li>
+					
 						<fieldset style="border: 0; padding: 10px 11px;">
 							<label style="position: inherit;"><spring:message
 									code="login.choose_language" /></label> <select id="locales"
