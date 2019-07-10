@@ -27,7 +27,7 @@ public class UserDetailService implements UserDetailsService {
 					Collections.singletonList(optionalUser.get().getRole().toString()));
 		}
 
-		throw new UsernameNotFoundException("No user with such email have not found! (" + email + ")");
+		throw new UsernameNotFoundException("User with such email have not found! (" + email + ")");
 	}
 
 }

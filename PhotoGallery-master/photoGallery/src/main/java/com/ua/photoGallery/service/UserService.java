@@ -1,5 +1,7 @@
 package com.ua.photoGallery.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +34,13 @@ public class UserService {
 	public void update(User user) {
 		logger.info("Update user info " + user);
 		userRepository.save(user);
+	}
+	
+	public List<User> getAllUsers() {
+		return userRepository.findAll();
+	}
+	
+	public User getByEmail(String email) {
+		return userRepository.findByEmail(email).isPresent() ? userRepository.findByEmail(email).get() : null;
 	}
 }

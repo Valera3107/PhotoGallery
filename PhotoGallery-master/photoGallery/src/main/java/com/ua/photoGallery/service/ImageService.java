@@ -2,6 +2,7 @@ package com.ua.photoGallery.service;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,5 +38,9 @@ public class ImageService {
 	public Image getFile(String id) {
 		logger.info("Get image from db " + id);
 		return imageRepository.findById(Integer.parseInt(id.replaceAll("\\s", ""))).get();
+	}
+
+	public List<Image> getAllImages(){
+		return imageRepository.findAll();
 	}
 }

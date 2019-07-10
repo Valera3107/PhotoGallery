@@ -28,13 +28,10 @@ public class ImageController {
 	@Autowired
 	private ImageService imageService;
 
-	@Autowired
-	private ImageRepository imageRepository;
-
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView welcome() {
 		ModelAndView mav = new ModelAndView("mainPage");
-		mav.addObject("photos", imageRepository.findAll());
+		mav.addObject("photos", imageService.getAllImages());
 		return mav;
 	}
 

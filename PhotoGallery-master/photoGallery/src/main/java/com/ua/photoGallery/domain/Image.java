@@ -37,7 +37,7 @@ public class Image {
 
 	@Column
 	private String fileType;
-	
+
 	@Lob
 	private String image;
 
@@ -47,7 +47,8 @@ public class Image {
 	public Image() {
 	}
 
-	public Image(String marker, byte[] data, String author, String name, String fileName, String fileType, String image) {
+	public Image(String marker, byte[] data, String author, String name, String fileName, String fileType,
+			String image) {
 		this.marker = marker;
 		this.data = data;
 		this.author = author;
@@ -57,7 +58,8 @@ public class Image {
 		this.image = image;
 	}
 
-	public Image(Integer id, String marker, byte[] data, String author, String name, String fileName, String fileType, String image) {
+	public Image(Integer id, String marker, byte[] data, String author, String name, String fileName, String fileType,
+			String image) {
 		this.id = id;
 		this.marker = marker;
 		this.data = data;
@@ -206,7 +208,7 @@ public class Image {
 	@Override
 	public String toString() {
 		return "Image [id=" + id + ", marker=" + marker + ", name=" + name + ", author=" + author + ", image=" + data
-				+ ", users=" + users + "]";
+				+ "]";
 	}
 
 }

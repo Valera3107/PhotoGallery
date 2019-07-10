@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ua.photoGallery.dao.ImageRepository;
-import com.ua.photoGallery.dao.UserRepository;
 import com.ua.photoGallery.domain.Image;
 import com.ua.photoGallery.domain.User;
 import com.ua.photoGallery.service.ImageService;
@@ -28,9 +27,6 @@ public class UserController {
 	private UserService userService;
 
 	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
 	private ImageService imageService;
 
 	@Autowired
@@ -38,7 +34,7 @@ public class UserController {
 	
 	private Supplier<User> getUser = () -> {
 		String emailUser = SecurityContextHolder.getContext().getAuthentication().getName();
-		User user = userRepository.findByEmail(emailUser).get();
+		User user = userService.getByEmail(emailUser);
 		return user;
 	};
 
@@ -77,7 +73,7 @@ public class UserController {
 		Image fileMultipart = imageService.getFile(id);
 		if (!user.getImages().contains(fileMultipart)) {
 			user.getImages().add(fileMultipart);
-			userRepository.save(user);
+			userService.update(user);
 		}
 		return openFavorite();
 	}
@@ -85,7 +81,7 @@ public class UserController {
 	@GetMapping(value = "/delete")
 	public String deletePhoto(@RequestParam String id) {
 		Image fileMultipart = imageService.getFile(id);
-		userRepository.findAll().stream().peek(e -> e.getImages().removeIf(p -> p.equals(fileMultipart)));
+		userService.getAllUsers().stream().peek(e -> e.getImages().removeIf(p -> p.equals(fileMultipart)));
 		imageRepository.delete(fileMultipart);
 		return "redirect:/home";
 	}
@@ -95,7 +91,7 @@ public class UserController {
 		Image fileMultipart = imageService.getFile(id);
 		User user = getUser.get();
 		user.getImages().removeIf(p -> p.equals(fileMultipart));
-		userRepository.save(user);
+		userService.update(user);
 		return "redirect:/favorite";
 	}
 

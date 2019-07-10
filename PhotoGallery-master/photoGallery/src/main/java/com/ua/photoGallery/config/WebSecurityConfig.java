@@ -32,18 +32,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-		.antMatchers("/").permitAll()
-		.antMatchers("/mainPage").access("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')")
-		.antMatchers("/uploadImage").access("hasRole('ROLE_ADMIN')")
-		.antMatchers("/downloadImage").access("hasRole('ROLE_USER')")
-		.anyRequest().permitAll().and()
-		
-		.formLogin().loginPage("/login")
-		.defaultSuccessUrl("/home").usernameParameter("email").passwordParameter("password").and()
-		.logout().logoutSuccessUrl("/login?logout").and()
-		.exceptionHandling().accessDeniedPage("/403").and()
-		.csrf();
+		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/mainPage")
+				.access("hasRole('ROLE_USER')  or hasRole('ROLE_ADMIN')").antMatchers("/uploadImage")
+				.access("hasRole('ROLE_ADMIN')").antMatchers("/downloadImage").access("hasRole('ROLE_USER')")
+				.anyRequest().permitAll().and()
+
+				.formLogin().loginPage("/login").defaultSuccessUrl("/home").usernameParameter("email")
+				.passwordParameter("password").and()
+
+				.logout().logoutSuccessUrl("/login?logout").and()
+
+				.exceptionHandling().accessDeniedPage("/403").and()
+
+				.csrf();
 	}
 
 }
