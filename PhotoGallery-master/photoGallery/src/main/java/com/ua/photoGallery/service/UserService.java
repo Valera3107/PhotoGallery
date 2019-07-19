@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ua.photoGallery.config.WebSecurityConfig;
@@ -21,11 +22,11 @@ public class UserService {
 	private UserRepository userRepository;
 
 	@Autowired
-	private WebSecurityConfig webSecurityConfig;
+	private PasswordEncoder passwordEncoder;
 
 	public void save(User user) {
-		user.setPassword(webSecurityConfig.passwordEncoder().encode(user.getPassword()));
-		user.setConfirmPassword(webSecurityConfig.passwordEncoder().encode(user.getConfirmPassword()));
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setConfirmPassword(passwordEncoder.encode(user.getConfirmPassword()));
 		user.setRole(Role.ROLE_USER);
 		logger.info("Save user to db " + user);
 		userRepository.save(user);
